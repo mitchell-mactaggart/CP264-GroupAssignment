@@ -69,3 +69,29 @@ void traverseTheTree(node *t, int height){
     }
 }
 
+
+int target_bits, cur_bytes, target_bytes; //global variables
+void output_bits (FILE *f, char d) { 
+    cur_bytes<<=1;
+    if (d=='1') cur_bytes|=1;
+    target_bits++;
+    if (target_bits==8) {
+        fputc (cur_bytes, f);
+        target_bytes++;
+        target_bits=0;
+        cur_bytes=0;
+    }
+}
+void f_encode (FILE *infile, FILE *outfile, char *z[]) {
+    unsigned char ch;
+    char *h;
+    target_bits=0;
+    cur_bytes=0;
+    target_bytes=0;
+    for (;;) {
+        ch = fgetc (infile);
+        if (feof (infile)) break;
+        for (h=z[ch]; *h; h++) output_bits (outfile,*h);
+    }
+    while (target_bits) output_bits (outfile,'0');
+}
