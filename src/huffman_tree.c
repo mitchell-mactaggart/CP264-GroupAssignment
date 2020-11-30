@@ -14,6 +14,30 @@ typedef struct node{
 
 node *nodes[256],*HTree;
 
+unsigned int get_freq(FILE *f, unsigned int charArray[]) {
+
+	// Adds all characters in the file to an array
+	// c is the temp storage for the char found
+	// numChar is the number of all the chars in the file
+	int c, numChar;
+
+	// numChar counts the characters
+	for (numChar = 0;; numChar++) {
+
+		// get the next char in the file
+		c = fgetc(f);
+
+		// stop if eof is reached
+		if (feof(f)) {
+			break;
+		}
+
+		// Add the character found
+		charArray[c]++;
+	}
+	return numChar;
+}
+
 void buildHuffmanTree(void){
     node *new;
     int a,b,min,temp;
@@ -82,6 +106,7 @@ void output_bits (FILE *f, char d) {
         cur_bytes=0;
     }
 }
+
 void f_encode (FILE *infile, FILE *outfile, char *z[]) {
     unsigned char ch;
     char *h;
